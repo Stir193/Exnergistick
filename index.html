@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Exnergistick — Plataforma de Inversión</title>
+  <meta name="description" content="Exnergistick - Invierte con responsabilidad" />
+  <style>
+    :root{--orange:#ff6a00;--black:#0b0b0b;--muted:#8a8a8a;font-family:Inter,system-ui,Arial;}
+    *{box-sizing:border-box} body{margin:0;background:#fff;color:var(--black)}
+    .wrap{max-width:980px;margin:24px auto;padding:18px}
+    header{display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--orange),#ff8a2b);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+    h1{margin:0;font-size:1.6rem}
+    .hero{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}
+    .card{flex:1;min-width:280px;padding:18px;border-radius:12px;border:1px solid #f0f0f0}
+    .btn{background:var(--orange);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+    .btn-black{background:var(--black);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+    label{display:block;margin-top:10px;font-size:0.9rem;color:var(--muted)}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e6e6;margin-top:6px}
+    .small{font-size:0.9rem;color:var(--muted)}
+    nav a{margin-left:10px;text-decoration:none;color:var(--muted)}
+    #dashboard{display:none;margin-top:14px}
+    #loginForm, #registerForm{max-width:420px}
+    .row{display:flex;gap:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo">EX</div>
+        <div>
+          <div style="font-weight:800">Exnergistick</div>
+          <div class="small">Invierte con responsabilidad</div>
+        </div>
+      </div>
+      <div id="topActions">
+        <a href="#" onclick="showLogin()">Iniciar sesión</a>
+        <a href="#" onclick="showRegister()">Registrarse</a>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <section id="authSection" class="hero">
+        <div class="card" id="loginCard">
+          <h3>Iniciar sesión</h3>
+          <form id="loginForm" onsubmit="return login(event)">
+            <label>Email</label><input id="login_email" type="email" required />
+            <label>Contraseña</label><input id="login_password" type="password" required />
+            <div style="margin-top:10px"><button class="btn" type="submit">Entrar</button></div>
+          </form>
+        </div>
+
+        <div class="card" id="registerCard">
+          <h3>Registrarse</h3>
+          <form id="registerForm" onsubmit="return register(event)">
+            <label>Nombre completo</label><input id="reg_name" required />
+            <label>Email</label><input id="reg_email" type="email" required />
+            <label>Contraseña</label><input id="reg_password" type="password" required />
+            <div style="margin-top:10px"><button class="btn" type="submit">Crear cuenta</button></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="dashboard" class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <strong id="userName"></strong><div class="small" id="userEmail"></div>
+            <div class="small">Saldo disponible: <span id="userBalance">0</span> USD</div>
+          </div>
+          <div>
+            <button class="btn-black" onclick="logout()">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0" />
+
+        <h4>Invertir</h4>
+        <div class="row">
+          <select id="invest_plan">
+            <option value="Conservador" data-amount="200">Conservador — $200</option>
+            <option value="Moderado" data-amount="500">Moderado — $500</option>
+            <option value="Agresivo" data-amount="1000">Agresivo — $1000</option>
+          </select>
+          <input id="invest_amount" type="number" value="200" min="1" />
+          <button class="btn" onclick="startInvest()">Invertir</button>
+        </div>
+        <div id="investMsg" class="small" style="margin-top:8px"></div>
+
+        <hr style="margin:12px 0" />
+        <h4>Solicitar retiro</h4>
+        <label>Cuenta destino (Banco / Nequi / Cuenta)</label>
+        <input id="withdraw_account" placeholder="Banco - Cuenta - Titular" />
+        <label>Monto (USD)</label>
+        <input id="withdraw_money" type="number" value="50" />
+        <div style="margin-top:8px">
+          <button class="btn" onclick="requestWithdraw()">Solicitar retiro</button>
+        </div>
+        <div id="withdrawMsg" class="small" style="margin-top:8px"></div>
+
+        <hr style="margin:12px 0" />
+        <h4>Pago por Nequi (QR / número)</h4>
+        <p class="small">Tu número de Nequi (te lo configurará el admin). Puedes mostrar QR o copiar el número.</p>
+        <div id="nequiArea" style="display:flex;gap:10px;align-items:center">
+          <img id="nequiImg" src="" alt="QR Nequi" style="max-width:120px;display:none;border-radius:8px;border:1px solid #eee" />
+          <div id="nequiInfo" class="small"></div>
+          <div>
+            <button class="btn" onclick="copyNequi()">Copiar número</button>
+            <a id="openNequiLink" href="#" class="btn-black" style="display:none">Abrir Nequi</a>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0" />
+        <h4>Historial</h4>
+        <div id="history" class="small"></div>
+      </section>
+    </main>
+    <footer style="margin-top:18px" class="small">© Exnergistick • Plantilla técnica — No operar sin asesoría.</footer>
+  </div>
+
+  <script>
+    let token = localStorage.getItem('ex_token');
+    const api = '';
+
+    function showLogin(){ document.getElementById('authSection').style.display='flex'; document.getElementById('dashboard').style.display='none'; }
+    function showRegister(){ document.getElementById('authSection').style.display='flex'; document.getElementById('dashboard').style.display='none'; }
+
+    async function register(e){
+      e.preventDefault();
+      const name=document.getElementById('reg_name').value;
+      const email=document.getElementById('reg_email').value;
+      const password=document.getElementById('reg_password').value;
+      const res=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password})});
+      const data=await res.json();
+      if(data.ok){ alert('Cuenta creada. Inicia sesión.'); }
+      else alert(data.error || 'Error');
+    }
+
+    async function login(e){
+      e.preventDefault();
+      const email=document.getElementById('login_email').value;
+      const password=document.getElementById('login_password').value;
+      const res=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+      const data=await res.json();
+      if(data.token){ localStorage.setItem('ex_token', data.token); token=data.token; loadDashboard(); }
+      else alert(data.error || 'Error al iniciar sesión');
+    }
+
+    async function loadDashboard(){
+      if(!token) return showLogin();
+      const res = await fetch('/api/me',{headers:{'Authorization':'Bearer '+token}});
+      const data = await res.json();
+      if(data&&data.user){
+        document.getElementById('authSection').style.display='none';
+        document.getElementById('dashboard').style.display='block';
+        document.getElementById('userName').textContent = data.user.name;
+        document.getElementById('userEmail').textContent = data.user.email;
+        document.getElementById('userBalance').textContent = data.user.balance.toFixed(2);
+        // Nequi display
+        if(data.nequi && data.nequi.number){
+          document.getElementById('nequiInfo').textContent = 'Nequi: ' + data.nequi.number;
+          const openLink = document.getElementById('openNequiLink');
+          openLink.href = 'tel:' + data.nequi.number.replace(/\s+/g,'');
+          openLink.style.display='inline-block';
+        }
+        if(data.nequi && data.nequi.qr_url){
+          document.getElementById('nequiImg').src = data.nequi.qr_url;
+          document.getElementById('nequiImg').style.display='inline-block';
+        }
+        // history
+        let h = '<ul>';
+        (data.history||[]).forEach(it=>{
+          h += `<li>${it.type} — ${it.amount || ''} — ${it.status || ''} — ${new Date(it.createdAt).toLocaleString()}</li>`;
+        });
+        h += '</ul>';
+        document.getElementById('history').innerHTML = h;
+
+      } else { showLogin(); }
+    }
+
+    async function startInvest(){
+      const plan = document.getElementById('invest_plan').value;
+      const amount = Number(document.getElementById('invest_amount').value);
+      const res = await fetch('/api/invest',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({plan,amount})});
+      const data = await res.json();
+      const el = document.getElementById('investMsg');
+      if(data.ok && data.redirectUrl){
+        el.style.color='green'; el.textContent = 'Redirigiendo a PayU...';
+        window.location.href = data.redirectUrl;
+      } else if(data.ok){
+        el.style.color='green'; el.textContent = 'Inversión registrada (demo).';
+        loadDashboard();
+      } else {
+        el.style.color='red'; el.textContent = data.error || 'Error';
+      }
+    }
+
+    async function requestWithdraw(){
+      const acc = document.getElementById('withdraw_account').value;
+      const amount = Number(document.getElementById('withdraw_money').value);
+      const res = await fetch('/api/withdraw',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({account:acc,amount})});
+      const data = await res.json();
+      const el = document.getElementById('withdrawMsg');
+      if(data.ok){ el.style.color='green'; el.textContent = 'Solicitud registrada. ID: '+data.id; loadDashboard(); }
+      else { el.style.color='red'; el.textContent = data.error || 'Error'; }
+    }
+
+    function logout(){ localStorage.removeItem('ex_token'); token=null; location.reload(); }
+
+    function copyNequi(){
+      fetch('/api/nequi').then(r=>r.json()).then(d=>{
+        if(d.number){
+          navigator.clipboard.writeText(d.number).then(()=> alert('Número copiado: '+d.number));
+        } else alert('No hay número configurado.');
+      });
+    }
+
+    // Auto-load if token exists
+    if(token) loadDashboard();
+  </script>
+</body>
+</html>
