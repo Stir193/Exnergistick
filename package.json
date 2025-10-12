@@ -1,0 +1,18 @@
+{
+"nombre": "exnergistick-backend",
+"versión": "1.0.0",
+"description": "Backend para el sistema de inversión Exnergistick con registro, login y pagos Nequi.",
+"principal": "server.js",
+"guiones": {
+"inicio": "node server.js"
+},
+"Dependencias": {
+"bcrypt": "^5.1.1",
+"Cors": "^2.8.5",
+"dotenv": "^16.4.5",
+"exprés": "^4.18.2",
+"jsonwebtoken": "^9.0.2",
+"multer": "1.4.5-lts.1",
+"sqlite3": "^5.1.6"
+}
+}
