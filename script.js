@@ -1,1 +1,1 @@
-console.log("Exnergistick está funcionando correctamente");
+console.log('Frontend loaded');
