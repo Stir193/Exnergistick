@@ -1,31 +1,23 @@
-Exnergistick Backend READY
-=========================
+Exnergistick - Full package (frontend + backend)
+------------------------------------------------
 
 Contenido:
-- frontend/ (simple SPA que interactúa con backend)
-- server/ (Node.js + Express backend con SQLite)
-  - server.js
-  - package.json
-  - .env.example
+- server.js (Express backend with SQLite)
+- package.json
+- /public (frontend files: index.html, style.css, app.js)
+- /uploads (will be created on first run)
 
-Características incluidas:
-- Registro con nombre, email, teléfono y contraseña (bcrypt)
-- Login con JWT
-- Endpoint /api/me para obtener perfil y saldo
-- Upload de comprobantes (Nequi) y almacenamiento en /server/uploads
-- Admin endpoints para ver/aprobar pagos (usa ADMIN_TOKEN header)
-- Servir QR de Nequi desde NEQUI_QR_URL o archivo local (NEQUI_QR_PATH)
+Cómo desplegar en Render:
+1. Subir todos los archivos a tu repositorio (raíz).
+2. En Render, crea Web Service apuntando al repo (Root directory: .).
+3. Build command: npm install
+4. Start command: npm start
+5. Añadir variables de entorno en Render:
+   - JWT_SECRET (cadena larga)
+   - ADMIN_TOKEN (clave para admin APIs)
+   - NEQUI_NUMBER (3014808791)
+   - NEQUI_QR_URL (opcional)
+6. Deploy.
 
-Instrucciones rápidas:
-1) Descomprime este ZIP y sube todo el contenido a tu repositorio GitHub (en la raíz).
-2) En Render crea Web Service y apunta al root (no pongas 'server' en Root Directory).
-   - Build Command: npm install
-   - Start Command: npm start
-3) En Render agrega variables de entorno (Settings -> Environment):
-   - JWT_SECRET, ADMIN_TOKEN, NEQUI_NUMBER, NEQUI_QR_URL or NEQUI_QR_PATH
-4) Despliega. El servidor inicializará sqlite database automáticamente.
-5) Admin: usa header x-admin-token: <ADMIN_TOKEN> para listar pagos y aprobar.
-
-Notas:
-- En producción, cambia los secrets y guarda las imágenes en un storage (Cloudinary, S3).
-- No compartas claves secretas en chats públicos.
+Admin:
+- Usa el header x-admin-token: <ADMIN_TOKEN> para endpoints admin (ver/aprobar pagos y retiros).
