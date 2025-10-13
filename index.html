@@ -127,3 +127,27 @@
   <script src="script.js"></script>
 </body>
 </html>
+<section id="inversion" class="inversion">
+  <h2>Invierte en Exnergistick</h2>
+  <p>Pequeñas inversiones, grandes resultados. Elige tu monto y paga con Nequi.</p>
+
+  <form id="investForm" onsubmit="startInvestment(event)">
+    <label>Monto de inversión:</label>
+    <select id="amount" required>
+      <option value="">Selecciona un monto</option>
+      <option value="10000">$10.000</option>
+      <option value="20000">$20.000</option>
+      <option value="100000">$100.000</option>
+    </select>
+
+    <button type="submit">Continuar</button>
+  </form>
+
+  <div id="nequiSection" style="display:none; margin-top:20px;">
+    <h3>Pago con Nequi</h3>
+    <p>Envía tu inversión al número: <strong>3014808791</strong></p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Nequi_logo.png" width="120" alt="Nequi Logo" />
+    <p>Escanea este código QR para pagar:</p>
+    <img src="server/uploads/tuqr.png" width="200" alt="QR Nequi" />
+  </div>
+</section>
