@@ -41,4 +41,11 @@ async function loginUser(event) {
         alert('❌ Error al conectar con el servidor.');
         console.error(error);
     }
+}function startInvestment(event) {
+    event.preventDefault();
+    const amount = document.getElementById('amount').value;
+    if (!amount) return alert('Selecciona un monto.');
+
+    document.getElementById('nequiSection').style.display = 'block';
+    alert(`✅ Has seleccionado invertir $${amount}. Realiza tu pago por Nequi al 3014808791 y sube el comprobante.`);
 }
