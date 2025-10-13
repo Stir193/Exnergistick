@@ -18,7 +18,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const msgEl = document.getElementById('regMsg');
   msgEl.textContent = 'Procesando...';
   try{
-    const res = await fetch('/api/register', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,phone,password})});
+    const res = await fetch('https://exnergistick.onrender.com/api/register', { ... })('https://exnergistick.onrender.com/api/register', { ... }){method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,phone,password})});
     const data = await res.json();
     if(data.ok){ msgEl.textContent = 'Cuenta creada. Inicia sesión.'; document.getElementById('registerForm').reset(); }
     else msgEl.textContent = data.error || 'Error al crear cuenta.';
