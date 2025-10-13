@@ -1,100 +1,129 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Exnergistick</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Exnergistick — Pequeñas inversiones, grandes resultados</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <header><div class="logo">EXS</div><h1>Exnergistick</h1></header>
-    <main>
-      <section id="auth">
-        <h2>Crear cuenta</h2>
-        <form id="registerForm" onsubmit="return register(event)">
-          <input id="name" placeholder="Nombre completo" required/>
-          <input id="email" type="email" placeholder="Correo" required/>
-          <input id="phone" placeholder="Teléfono (ej: +573xxxxxxxxx)" required/>
-          <input id="password" type="password" placeholder="Contraseña" required/>
-          <button class="btn">Crear cuenta</button>
-        </form>
-        <hr/>
-        <h2>Iniciar sesión</h2>
-        <form id="loginForm" onsubmit="return login(event)">
-          <input id="login_email" type="email" placeholder="Correo" required/>
-          <input id="login_password" type="password" placeholder="Contraseña" required/>
-          <button class="btn-black">Entrar</button>
-        </form>
-      </section>
-
-      <section id="dashboard" style="display:none">
-        <h2>Bienvenido, <span id="userName"></span></h2>
-        <p>Saldo: <span id="balance">0</span> USD</p>
-
-        <h3>Invertir con Nequi</h3>
-        <div id="nequiArea">
-          <img id="nequiQR" src="/api/nequi-qr" alt="QR" style="max-width:220px;border-radius:8px"/>
-          <p>Número: <strong id="nequiNumber"></strong></p>
-          <label>Sube comprobante (pantallazo Nequi)</label>
-          <input id="proof" type="file" accept="image/*"/>
-          <button class="btn" onclick="uploadProof()">He pagado - Subir comprobante</button>
-          <div id="proofMsg"></div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo">EXS</div>
+        <div class="titles">
+          <h1>Exnergistick</h1>
+          <p class="tag">Pequeñas inversiones, grandes resultados</p>
         </div>
+      </div>
+      <a class="whatsapp" href="https://wa.me/573246158957" target="_blank" rel="noopener">Contactar</a>
+    </div>
+  </header>
 
-        <h3>Historial</h3>
-        <div id="history"></div>
+  <main class="container">
+    <section class="hero card">
+      <div class="hero-left">
+        <h2>Empieza a invertir desde $10.000 COP</h2>
+        <p class="lead">Con Exnergistick puedes iniciar con montos pequeños y formar parte de una comunidad de inversores. Rentabilidades simuladas y control total de tus movimientos.</p>
+        <div class="cta-row">
+          <a class="btn-primary" href="#planes">Ver planes</a>
+          <a class="btn-outline" href="#registro">Crear cuenta</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="card-stats">
+          <div><strong>+ </strong><span>350</span><div class="muted">Inversores</div></div>
+          <div><strong>+</strong><span>1.2K</span><div class="muted">Transacciones</div></div>
+          <div><strong>~</strong><span>15%</span><div class="muted">Rend. promedio</div></div>
+        </div>
+      </div>
+    </section>
 
-        <button onclick="logout()">Cerrar sesión</button>
-      </section>
-    </main>
-  </div>
-<script>
-async function register(e){
-  e.preventDefault();
-  const body = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    password: document.getElementById('password').value
-  };
-  const res = await fetch('/api/register', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
-  const data = await res.json();
-  alert(data.ok ? 'Cuenta creada. Inicia sesión.' : (data.error||'Error'));
-}
-async function login(e){
-  e.preventDefault();
-  const res = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email: document.getElementById('login_email').value, password: document.getElementById('login_password').value})});
-  const data = await res.json();
-  if(data.token){ localStorage.setItem('ex_token', data.token); loadDashboard(); } else alert(data.error||'Error');
-}
-async function loadDashboard(){
-  const token = localStorage.getItem('ex_token');
-  if(!token) return;
-  const res = await fetch('/api/me', {headers:{'Authorization':'Bearer '+token}});
-  const data = await res.json();
-  if(data.user){
-    document.getElementById('auth').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    document.getElementById('userName').textContent = data.user.name;
-    document.getElementById('balance').textContent = data.user.balance.toFixed(2);
-    document.getElementById('nequiNumber').textContent = data.nequi.number || '';
-  } else { alert('Error al cargar usuario'); }
-}
-async function uploadProof(){
-  const file = document.getElementById('proof').files[0];
-  if(!file) return alert('Selecciona una imagen');
-  const token = localStorage.getItem('ex_token');
-  const form = new FormData();
-  form.append('proof', file);
-  form.append('amount', 0);
-  const res = await fetch('/api/payments/upload-proof', {method:'POST', headers:{'Authorization':'Bearer '+token}, body: form});
-  const data = await res.json();
-  document.getElementById('proofMsg').textContent = data.ok ? 'Comprobante enviado. Espera aprobación.' : (data.error||'Error');
-  loadDashboard();
-}
-function logout(){ localStorage.removeItem('ex_token'); location.reload(); }
-if(localStorage.getItem('ex_token')) loadDashboard();
-</script>
+    <section id="planes" class="card">
+      <h3>Planes de inversión</h3>
+      <p class="small">Elige el capital inicial que quieras — puedes empezar con montos muy pequeños.</p>
+      <div class="plans">
+        <div class="plan">
+          <h4>Básico</h4>
+          <p class="price">$10.000 COP</p>
+          <p class="desc">Perfecto para empezar y aprender.</p>
+          <button class="btn-primary invest-btn" data-amount="10000">Invertir $10.000</button>
+        </div>
+        <div class="plan">
+          <h4>Intermedio</h4>
+          <p class="price">$20.000 COP</p>
+          <p class="desc">Para invertir con objetivos a corto plazo.</p>
+          <button class="btn-primary invest-btn" data-amount="20000">Invertir $20.000</button>
+        </div>
+        <div class="plan">
+          <h4>Premium</h4>
+          <p class="price">$100.000 COP</p>
+          <p class="desc">Rendimientos potenciales más altos.</p>
+          <button class="btn-primary invest-btn" data-amount="100000">Invertir $100.000</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="registro" class="card">
+      <h3>Registro</h3>
+      <form id="registerForm" class="form">
+        <label>Nombre completo</label>
+        <input id="reg_name" required />
+        <label>Correo</label>
+        <input id="reg_email" type="email" required />
+        <label>Teléfono (WhatsApp)</label>
+        <input id="reg_phone" required />
+        <label>Contraseña</label>
+        <input id="reg_password" type="password" required />
+        <button class="btn-primary" type="submit">Crear cuenta</button>
+      </form>
+      <div id="regMsg" class="small muted"></div>
+    </section>
+
+    <section id="inversion" class="card" style="display:none">
+      <h3>Realizar inversión</h3>
+      <p id="invInfo" class="small"></p>
+      <div class="qr-area">
+        <img id="nequiQR" src="" alt="QR Nequi" />
+        <p>Enviar al número: <strong id="nequiNumber">3014808791</strong></p>
+      </div>
+      <label>Sube el comprobante (pantallazo Nequi)</label>
+      <input id="proofFile" type="file" accept="image/*" />
+      <button class="btn-primary" id="submitProof">He pagado - Subir comprobante</button>
+      <div id="invMsg" class="small muted"></div>
+    </section>
+
+    <section id="testimonios" class="card">
+      <h3>Testimonios</h3>
+      <div class="testimonials">
+        <blockquote>
+          <p>"Empecé con $10.000 y en pocos meses vi que podía aumentar mis aportes. El equipo es responsable y atento."</p>
+          <cite>— Laura M., Medellín</cite>
+        </blockquote>
+        <blockquote>
+          <p>"Invertir fue más fácil de lo que pensaba. Recomiendo Exnergistick para quienes quieren empezar con poco."</p>
+          <cite>— José R., Bogotá</cite>
+        </blockquote>
+        <blockquote>
+          <p>"Buen soporte y transparencia. Ya llevo varias inversiones aprobadas y he visto crecimiento."</p>
+          <cite>— Ana P., Cali</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="card small muted">
+      <h4>Contacto</h4>
+      <p>¿Tienes dudas? Escríbenos por WhatsApp:</p>
+      <a class="btn-outline" href="https://wa.me/573246158957" target="_blank" rel="noopener">Enviar WhatsApp</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Exnergistick — Pequeñas inversiones, grandes resultados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
