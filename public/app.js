@@ -1,88 +1,133 @@
-const API = '';// same origin
-
-function show(el){ el.style.display='block'; }
-function hide(el){ el.style.display='none'; }
-
-// Registration
-document.getElementById('registerForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const name = document.getElementById('reg_name').value.trim();
-  const email = document.getElementById('reg_email').value.trim();
-  const phone = document.getElementById('reg_phone').value.trim();
-  const password = document.getElementById('reg_password').value.trim();
-  const msg = document.getElementById('regMsg');
-  msg.textContent = 'Procesando...';
-  try{
-    const res = await fetch('/api/register', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,phone,password})});
-    const data = await res.json();
-    if(data.ok){ msg.textContent = 'Cuenta creada. Inicia sesión.'; document.getElementById('registerForm').reset(); }
-    else msg.textContent = data.error || 'Error';
-  }catch(err){ msg.textContent = 'Error de conexión'; }
-});
-
-// Login
-document.getElementById('loginForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const email = document.getElementById('login_email').value.trim();
-  const password = document.getElementById('login_password').value.trim();
-  const msg = document.getElementById('loginMsg');
-  msg.textContent = 'Conectando...';
-  try{
-    const res = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email,password})});
-    const data = await res.json();
-    if(data.token){ localStorage.setItem('ex_token', data.token); msg.textContent = 'Inicio de sesión correcto'; loadProfile(); }
-    else msg.textContent = data.error || 'Credenciales inválidas';
-  }catch(err){ msg.textContent = 'Error de conexión'; }
-});
-
-async function loadProfile(){
-  const token = localStorage.getItem('ex_token');
-  if(!token) return;
-  try{
-    const res = await fetch('/api/me', {headers:{'Authorization':'Bearer '+token}});
-    const data = await res.json();
-    if(data.user){
-      document.getElementById('dashboard').style.display='block';
-      document.getElementById('userName').textContent = data.user.name;
-      document.getElementById('userBalance').textContent = Number(data.user.balance).toLocaleString('es-CO');
-      const inv = document.getElementById('myInvestments'); inv.innerHTML='';
-      (data.investments||[]).forEach(i=>{ inv.innerHTML += `<div><strong>${i.plan}</strong> - $${Number(i.amount).toLocaleString('es-CO')} - ${i.status}</div>`; });
-      document.getElementById('registro').style.display='none';
-    }
-  }catch(err){ console.error(err); }
+/* Estilos generales */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
 }
 
-// Invest buttons
-document.querySelectorAll('.invest-btn').forEach(btn => {
-  btn.addEventListener('click', async function(){
-    const amount = Number(this.dataset.amount);
-    const token = localStorage.getItem('ex_token');
-    if(!token){ alert('Debes iniciar sesión para invertir'); window.location.hash='#registro'; return; }
-    const plan = this.parentElement.querySelector('h4').innerText;
-    try{
-      const res = await fetch('/api/invest', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}, body: JSON.stringify({plan,amount})});
-      const data = await res.json();
-      if(data.ok){ alert('Inversión creada y pendiente. Escanea el QR para pagar a Nequi: 3014808791'); loadProfile(); }
-      else alert(data.error||'Error al crear inversión');
-    }catch(err){ alert('Error de conexión'); }
-  });
-});
+/* Encabezado */
+header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #eee;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-// withdraw
-document.getElementById('withdrawForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const amount = Number(document.getElementById('withdraw_amount').value);
-  const account = document.getElementById('withdraw_account').value.trim();
-  const token = localStorage.getItem('ex_token');
-  if(!token){ alert('Inicia sesión'); return; }
-  try{
-    const res = await fetch('/api/withdraw', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}, body: JSON.stringify({amount,account})});
-    const data = await res.json();
-    if(data.ok){ document.getElementById('withdrawMsg').textContent = 'Solicitud enviada. Un asesor la revisará.'; loadProfile(); }
-    else document.getElementById('withdrawMsg').textContent = data.error||'Error'; 
-  }catch(err){ document.getElementById('withdrawMsg').textContent = 'Error de conexión'; }
-});
+header h1 {
+  color: #007bff;
+  font-size: 1.8rem;
+  margin: 0;
+}
 
-document.getElementById('logoutBtn').addEventListener('click', function(){ localStorage.removeItem('ex_token'); location.reload(); });
+header nav a {
+  color: #007bff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.2s ease-in;
+}
 
-if(localStorage.getItem('ex_token')) loadProfile();
+header nav a:hover {
+  color: #0056b3;
+}
+
+/* Sección principal */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #e9f2ff;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+/* Formulario */
+form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+form h3 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Cards de inversión */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 40px;
+}
+
+.plan {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.plan:hover {
+  transform: scale(1.03);
+}
+
+.plan h4 {
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.plan p {
+  color: #555;
+}
+
+.plan button {
+  margin-top: 10px;
+}
+
+/* Footer */
+footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 15px 10px;
+  color: #555;
+  font-size: 0.9rem;
+  margin-top: 50px;
+}
