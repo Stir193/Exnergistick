@@ -174,10 +174,11 @@ app.get('/api/nequi', (req,res)=>{
 // serve uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// fallback to frontend
-app.get('*', (req,res)=>{
+// Fallback para el frontend (muestra index.html en cualquier ruta)
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Puerto del servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log('Server running on port', PORT));
+app.listen(PORT, () => console.log('Server running on port', PORT));
