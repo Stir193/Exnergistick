@@ -1,111 +1,77 @@
-/* ===== Estilos generales ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
+// === CAMBIO ENTRE LOGIN Y REGISTRO ===
+const loginTab = document.getElementById("login-tab");
+const registerTab = document.getElementById("register-tab");
+const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+const message = document.getElementById("message");
 
-body {
-  background: linear-gradient(180deg, #ffffff, #e8f0fe);
-  color: #222;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+loginTab.addEventListener("click", () => {
+  loginForm.classList.remove("hidden");
+  registerForm.classList.add("hidden");
+  message.textContent = "";
+});
 
-/* ===== Encabezado ===== */
-header {
-  text-align: center;
-  padding: 2rem 1rem 1rem;
-}
+registerTab.addEventListener("click", () => {
+  registerForm.classList.remove("hidden");
+  loginForm.classList.add("hidden");
+  message.textContent = "";
+});
 
-header h1 {
-  font-size: 2rem;
-  color: #1e40af;
-  font-weight: 700;
-}
+// === FUNCIÓN PARA LOGIN ===
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
 
-header .highlight {
-  color: #2563eb;
-}
+  try {
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-header p {
-  margin-top: 0.5rem;
-  color: #444;
-}
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      message.style.color = "green";
+      message.textContent = "Inicio de sesión exitoso ✅";
+      setTimeout(() => (window.location.href = "/dashboard.html"), 1000);
+    } else {
+      message.style.color = "red";
+      message.textContent = data.error || "Error al iniciar sesión";
+    }
+  } catch (err) {
+    message.style.color = "red";
+    message.textContent = "Error de conexión con el servidor";
+  }
+});
 
-/* ===== Formularios ===== */
-main {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
+// === FUNCIÓN PARA REGISTRO ===
+registerForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("register-name").value;
+  const email = document.getElementById("register-email").value;
+  const phone = document.getElementById("register-phone").value;
+  const password = document.getElementById("register-password").value;
 
-#forms-container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 400px;
-}
+  try {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, phone, password }),
+    });
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-form h2 {
-  text-align: center;
-  color: #1e3a8a;
-}
-
-input {
-  padding: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 0.8rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #1d4ed8;
-}
-
-a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-#message {
-  text-align: center;
-  margin-top: 1rem;
-  color: #333;
-  font-weight: 500;
-}
-
-/* ===== Pie de página ===== */
-footer {
-  margin-top: auto;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #666;
-}
+    const data = await res.json();
+    if (data.ok) {
+      message.style.color = "green";
+      message.textContent = "Usuario registrado con éxito ✅";
+      registerForm.reset();
+    } else {
+      message.style.color = "red";
+      message.textContent = data.error || "Error en el registro";
+    }
+  } catch (err) {
+    message.style.color = "red";
+    message.textContent = "Error de conexión con el servidor";
+  }
+});
