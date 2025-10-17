@@ -1,48 +1,133 @@
-body {
+/* ====== ESTILOS GENERALES ====== */
+* {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #f4f4f4;
-  color: #333;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-header {
-  background-color: #008cff;
+body {
+  background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77);
   color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ====== CABECERA ====== */
+header {
+  background: #0b132b;
+  padding: 15px 0;
   text-align: center;
-  padding: 20px 10px;
+  border-bottom: 2px solid #00b4d8;
 }
 
 header h1 {
-  font-size: 24px;
-  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #00b4d8;
+}
+
+header span {
+  color: #ffffff;
+}
+
+/* ====== CONTENIDO PRINCIPAL ====== */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+}
+
+main h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+main p {
+  max-width: 500px;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+/* ====== BOTONES ====== */
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
 button {
-  background-color: #008cff;
-  color: white;
+  background: #00b4d8;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 button:hover {
-  background-color: #0066cc;
+  background: #0077b6;
 }
 
-.container {
-  max-width: 400px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
+/* ====== PIE DE PÁGINA ====== */
+footer {
+  background: #0b132b;
+  padding: 15px;
+  text-align: center;
+  font-size: 14px;
+  border-top: 2px solid #00b4d8;
+}
+
+/* ====== FORMULARIOS ====== */
+form {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
+  max-width: 400px;
+  width: 100%;
+  margin-top: 20px;
 }
 
-input, select {
+form input {
   width: 100%;
   padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+form button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ====== LOGO GIRANDO ====== */
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 60px;
+  height: 60px;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
