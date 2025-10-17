@@ -1,47 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exnergistick</title>
-  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <header>
-    <h1>⚡ BIENVENIDO A EXNERGISTICK ⚡</h1>
-    <p>Invierte, crece y gana con energía.</p>
+    <h1>🔋 Bienvenido a <span class="highlight">Exnergistick</span></h1>
+    <p>La plataforma donde tu energía se convierte en crecimiento.</p>
   </header>
 
   <main>
-    <div class="container">
-      <section id="loginForm">
+    <div id="forms-container">
+      <!-- Formulario de inicio de sesión -->
+      <form id="loginForm">
         <h2>Iniciar Sesión</h2>
-        <form onsubmit="loginUser(event)">
-          <input type="email" id="logEmail" placeholder="Correo" required>
-          <input type="password" id="logPassword" placeholder="Contraseña" required>
-          <button type="submit">Entrar</button>
-        </form>
-        <p>¿No tienes cuenta? <a href="#" onclick="showRegister()">Regístrate aquí</a></p>
-      </section>
+        <input type="email" id="loginEmail" placeholder="Correo electrónico" required />
+        <input type="password" id="loginPassword" placeholder="Contraseña" required />
+        <button type="submit">Entrar</button>
+        <p>¿No tienes cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+      </form>
 
-      <section id="registerForm" style="display: none;">
-        <h2>Registro</h2>
-        <form onsubmit="registerUser(event)">
-          <input type="text" id="regName" placeholder="Nombre completo" required>
-          <input type="email" id="regEmail" placeholder="Correo electrónico" required>
-          <input type="tel" id="regPhone" placeholder="Teléfono" required>
-          <input type="password" id="regPassword" placeholder="Contraseña" required>
-          <button type="submit">Registrarme</button>
-        </form>
-        <p>¿Ya tienes cuenta? <a href="#" onclick="showLogin()">Inicia sesión</a></p>
-      </section>
+      <!-- Formulario de registro -->
+      <form id="registerForm" style="display:none;">
+        <h2>Registrarse</h2>
+        <input type="text" id="name" placeholder="Nombre completo" required />
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Crear cuenta</button>
+        <p>¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia sesión</a></p>
+      </form>
+
+      <p id="message"></p>
     </div>
   </main>
 
   <footer>
-    <p>ENERGYSTICK ⚡ — Creciendo contigo desde la energía</p>
+    <p>© 2025 Exnergistick. Todos los derechos reservados.</p>
   </footer>
 
-  <script src="public/js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
