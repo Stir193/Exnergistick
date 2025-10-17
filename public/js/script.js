@@ -1,76 +1,111 @@
-// script.js
+/* ===== Estilos generales ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  const registerForm = document.getElementById("registerForm");
-  const showLogin = document.getElementById("showLogin");
-  const showRegister = document.getElementById("showRegister");
-  const message = document.getElementById("message");
+body {
+  background: linear-gradient(180deg, #ffffff, #e8f0fe);
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  if (showRegister) {
-    showRegister.addEventListener("click", () => {
-      loginForm.style.display = "none";
-      registerForm.style.display = "block";
-      message.textContent = "";
-    });
-  }
+/* ===== Encabezado ===== */
+header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
 
-  if (showLogin) {
-    showLogin.addEventListener("click", () => {
-      registerForm.style.display = "none";
-      loginForm.style.display = "block";
-      message.textContent = "";
-    });
-  }
+header h1 {
+  font-size: 2rem;
+  color: #1e40af;
+  font-weight: 700;
+}
 
-  // Manejo del formulario de registro
-  if (registerForm) {
-    registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+header .highlight {
+  color: #2563eb;
+}
 
-      const data = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-      };
+header p {
+  margin-top: 0.5rem;
+  color: #444;
+}
 
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+/* ===== Formularios ===== */
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
 
-      const result = await res.json();
-      message.textContent = result.message || "Error al registrar";
-      if (res.ok) {
-        registerForm.reset();
-      }
-    });
-  }
+#forms-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+}
 
-  // Manejo del formulario de inicio de sesión
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-      const data = {
-        email: document.getElementById("loginEmail").value,
-        password: document.getElementById("loginPassword").value,
-      };
+form h2 {
+  text-align: center;
+  color: #1e3a8a;
+}
 
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-      const result = await res.json();
-      message.textContent = result.message || "Error al iniciar sesión";
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
 
-      if (res.ok) {
-        localStorage.setItem("user", JSON.stringify(result.user));
-        window.location.href = "/dashboard.html";
-      }
-    });
-  }
-});
+button:hover {
+  background: #1d4ed8;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#message {
+  text-align: center;
+  margin-top: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ===== Pie de página ===== */
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
