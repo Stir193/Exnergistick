@@ -1,133 +1,111 @@
-/* ====== ESTILOS GENERALES ====== */
+/* ===== Estilos generales ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77);
-  color: white;
+  background: linear-gradient(180deg, #ffffff, #e8f0fe);
+  color: #222;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
 }
 
-/* ====== CABECERA ====== */
+/* ===== Encabezado ===== */
 header {
-  background: #0b132b;
-  padding: 15px 0;
   text-align: center;
-  border-bottom: 2px solid #00b4d8;
+  padding: 2rem 1rem 1rem;
 }
 
 header h1 {
-  font-size: 26px;
+  font-size: 2rem;
+  color: #1e40af;
   font-weight: 700;
-  color: #00b4d8;
 }
 
-header span {
-  color: #ffffff;
+header .highlight {
+  color: #2563eb;
 }
 
-/* ====== CONTENIDO PRINCIPAL ====== */
+header p {
+  margin-top: 0.5rem;
+  color: #444;
+}
+
+/* ===== Formularios ===== */
 main {
-  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+#forms-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+}
+
+form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  gap: 1rem;
+}
+
+form h2 {
   text-align: center;
-  padding: 30px;
+  color: #1e3a8a;
 }
 
-main h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-main p {
-  max-width: 500px;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-/* ====== BOTONES ====== */
-.buttons {
-  margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
+input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
-  background: #00b4d8;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-size: 16px;
+  background: #2563eb;
   color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
   transition: 0.3s;
 }
 
 button:hover {
-  background: #0077b6;
+  background: #1d4ed8;
 }
 
-/* ====== PIE DE PÁGINA ====== */
-footer {
-  background: #0b132b;
-  padding: 15px;
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#message {
   text-align: center;
-  font-size: 14px;
-  border-top: 2px solid #00b4d8;
+  margin-top: 1rem;
+  color: #333;
+  font-weight: 500;
 }
 
-/* ====== FORMULARIOS ====== */
-form {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
-  max-width: 400px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-form input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-}
-
-form button {
-  width: 100%;
-  margin-top: 10px;
-}
-
-/* ====== LOGO GIRANDO ====== */
-.logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.logo img {
-  width: 60px;
-  height: 60px;
-  animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* ===== Pie de página ===== */
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #666;
 }
