@@ -1,50 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Inversión</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Exnergistick - Inversión</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Panel de Inversión</h1>
-    <nav>
-      <button id="loginBtn">Iniciar Sesión</button>
-      <button id="registerBtn">Registrarse</button>
-    </nav>
+  <header class="topbar">
+    <h1>Exnergistick</h1>
+    <p class="tag">Pequeñas inversiones, grandes resultados</p>
   </header>
 
-  <main>
-    <section id="authSection" class="card">
-      <h2>Acceso</h2>
-      <input type="text" id="username" placeholder="Usuario">
-      <input type="password" id="password" placeholder="Contraseña">
-      <button id="accessBtn">Entrar</button>
+  <main class="container">
+    <section class="auth">
+      <div class="tabs">
+        <button id="showLogin" class="tab active">Iniciar Sesión</button>
+        <button id="showRegister" class="tab">Registrarse</button>
+      </div>
+
+      <form id="loginForm" class="form">
+        <input id="loginEmail" type="email" placeholder="Correo electrónico" required>
+        <input id="loginPassword" type="password" placeholder="Contraseña" required>
+        <button type="submit" class="primary">Entrar</button>
+      </form>
+
+      <form id="registerForm" class="form hidden">
+        <input id="registerName" type="text" placeholder="Nombre" required>
+        <input id="registerEmail" type="email" placeholder="Correo electrónico" required>
+        <input id="registerPhone" type="text" placeholder="Teléfono" required>
+        <input id="registerPassword" type="password" placeholder="Contraseña" required>
+        <button type="submit" class="primary">Registrarse</button>
+      </form>
+
+      <p id="message" class="message"></p>
     </section>
 
-    <section id="dashboard" class="hidden">
-      <h2>Bienvenido, <span id="userDisplay"></span></h2>
-
+    <section id="appContent" class="appContent hidden">
       <div class="card">
-        <h3>Tareas de inversión</h3>
-        <div id="tasks"></div>
+        <h2>Bienvenido, <span id="userName">Usuario</span></h2>
+        <p>Balance actual: <strong id="userBalance">0</strong> COP</p>
+        <button id="openInvest" class="secondary">Invertir</button>
+        <button id="openWithdraw" class="secondary">Solicitar Retiro</button>
       </div>
 
-      <div class="card">
-        <h3>Balance actual</h3>
-        <p id="balance">0 USD</p>
-        <button id="withdrawBtn">Solicitar Retiro</button>
+      <div class="cardsRow">
+        <div class="smallCard">App</div>
+        <div class="smallCard">Tareas</div>
+        <div class="smallCard">Invitar</div>
+        <div class="smallCard">Equipo</div>
       </div>
 
-      <div class="card">
-        <h3>Hablar con un asesor</h3>
-        <a href="https://wa.me/573014808791" target="_blank" class="btn">Chatear por WhatsApp</a>
-      </div>
-
-      <button id="logoutBtn" class="logout">Cerrar Sesión</button>
+      <button id="logoutBtn" class="danger">Cerrar Sesión</button>
     </section>
   </main>
+
+  <nav class="bottomBar">
+    <a>Home</a>
+    <a>Pool</a>
+    <a>Income</a>
+    <a>Wallet</a>
+    <a>Profile</a>
+  </nav>
 
   <script src="app.js"></script>
 </body>
