@@ -3,60 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exnergistick - Bienvenido</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Exnergistick - Plataforma de Inversión</title>
+  <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
+
   <header>
-    <h1>⚡ Bienvenido a <span>Exnergistick</span></h1>
-    <p>Tu plataforma de tareas e inversión inteligente</p>
+    <h1>Exnergistick</h1>
+    <p>Multiplica tus ingresos con inversiones seguras y confiables</p>
   </header>
 
   <main>
-    <div class="auth-container">
-      <div class="tabs">
-        <button id="show-login">Iniciar Sesión</button>
-        <button id="show-register">Registrarse</button>
-      </div>
+    <h2>Bienvenido a Exnergistick</h2>
+    <p>
+      Somos una plataforma de inversión que trabaja con transparencia, tecnología
+      y rentabilidad. Aquí puedes comenzar a construir tu futuro financiero con confianza.
+    </p>
 
-      <div id="login-section" class="form-section">
-        <h2>Iniciar Sesión</h2>
-        <form id="login-form">
-          <input type="text" id="login-username" placeholder="Usuario" required>
-          <input type="password" id="login-password" placeholder="Contraseña" required>
-          <button type="submit">Entrar</button>
-        </form>
-      </div>
-
-      <div id="register-section" class="form-section hidden">
-        <h2>Registrarse</h2>
-        <form id="register-form">
-          <input type="text" id="reg-username" placeholder="Usuario" required>
-          <input type="password" id="reg-password" placeholder="Contraseña" required>
-          <button type="submit">Crear Cuenta</button>
-        </form>
-      </div>
-
-      <p id="message"></p>
-    </div>
+    <button id="invertirBtn">Invertir ahora</button>
   </main>
 
   <footer>
-    <p>© 2025 Exnergistick | Contacto: <a href="https://wa.me/573014808791" target="_blank">Hablar con un asesor</a></p>
+    <p>© 2025 Exnergistick. Todos los derechos reservados.</p>
   </footer>
 
-  <script src="js/script.js"></script>
-  <script>
-    // Cambio entre formularios
-    document.getElementById("show-login").addEventListener("click", () => {
-      document.getElementById("login-section").classList.remove("hidden");
-      document.getElementById("register-section").classList.add("hidden");
-    });
-
-    document.getElementById("show-register").addEventListener("click", () => {
-      document.getElementById("register-section").classList.remove("hidden");
-      document.getElementById("login-section").classList.add("hidden");
-    });
-  </script>
+  <script src="/public/js/script.js"></script>
 </body>
-</html>
+</html
