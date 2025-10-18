@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel - ENERGYSTICK</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header><img src="logo.svg" class="logo"><h1>Panel - ENERGYSTICK</h1></header>
+<main>
+  <div class="auth-container" id="panel">
+    <h2 id="welcome">Bienvenido</h2>
+    <p>Balance: <b id="balance">0 COP</b></p>
+    <div style="display:flex;gap:8px;margin-top:10px"><button id="btn-invest">Invertir</button><button id="btn-withdraw">Solicitar Retiro</button></div>
+    <hr style="margin:12px 0">
+    <h3>Planes</h3>
+    <div id="plans" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <hr>
+    <a id="tg" href="https://t.me/Andrewsbuyer" target="_blank">💬 Contáctanos en Telegram</a>
+    <div style="margin-top:12px"><button id="logout">Cerrar sesión</button></div>
+  </div>
+</main>
+<script>
+(async function(){
+  const token = localStorage.getItem('token');
+  if(!token) return window.location.href='/';
+  try{
+    const r = await fetch('/api/me',{headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if(data.user){ document.getElementById('welcome').textContent='Bienvenido, '+(data.user.name||data.user.email); document.getElementById('balance').textContent=(data.user.balance||0)+' COP'; document.getElementById('tg').href=(data.telegram||'https://t.me/Andrewsbuyer'); }
+    const plans = [{id:'p1',title:'Plan A',price:10000},{id:'p2',title:'Plan B',price:30000},{id:'p3',title:'Plan C',price:70000}];
+    const plansEl = document.getElementById('plans');
+    plans.forEach(p=>{ const d=document.createElement('div'); d.className='plan'; d.style.background='#071827'; d.style.padding='10px'; d.style.borderRadius='8px'; d.innerHTML=`<b>${p.title}</b><div>${p.price} COP</div><button data-price="${p.price}">Invertir</button>`; plansEl.appendChild(d); });
+    plansEl.addEventListener('click', async (e)=>{ if(e.target.tagName==='BUTTON'){ const amount=Number(e.target.dataset.price); const res = await fetch('/api/invest',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({plan:'estandar',amount})}); const j=await res.json(); if(j.ok) alert('Inversión creada'); else alert(j.error||'Error'); } });
+    document.getElementById('logout').addEventListener('click', ()=>{ localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href='/'; });
+    document.getElementById('btn-withdraw').addEventListener('click', async ()=>{ const amount=prompt('Cuánto retirar?'); const account=prompt('Cuenta/numero'); if(!amount||!account) return; const res=await fetch('/api/withdraw',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({amount:Number(amount),account})}); const j=await res.json(); if(j.ok) alert('Solicitud enviada'); else alert(j.error||'Error'); });
+    document.getElementById('btn-invest').addEventListener('click', ()=>{ alert('Pulsa un plan para invertir'); });
+  }catch(e){ console.error(e); window.location.href='/'; }
+})();
+</script>
+</body>
+</html>
