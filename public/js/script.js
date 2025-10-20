@@ -1,4 +1,4 @@
-// frontend interactions
+// interactions: registro + login
 document.addEventListener('DOMContentLoaded', ()=>{
   const tabLogin = document.getElementById('tab-login');
   const tabRegister = document.getElementById('tab-register');
