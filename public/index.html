@@ -1,50 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ENERGYSTICK</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exnergistick - Plataforma de Inversión</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-  <img src="logo.svg" class="logo" alt="logo">
-  <h1>BIENVENIDO A ENERGYSTICK</h1>
-  <p>Pequeñas inversiones, grandes resultados</p>
-</header>
-<main>
-  <div class="auth-container">
-    <div class="tabs">
-      <button id="tab-login">Iniciar sesión</button>
-      <button id="tab-register">Registrarse</button>
+  <div class="container">
+    <h1>Exnergistick 💹</h1>
+    <div class="form-container">
+      <input id="nombre" type="text" placeholder="Nombre" />
+      <input id="email" type="email" placeholder="Correo" />
+      <input id="password" type="password" placeholder="Contraseña" />
+      <button onclick="registrar()">Registrar</button>
+      <button onclick="login()">Iniciar Sesión</button>
     </div>
-    <div id="login-section" class="form-section">
-      <h2>Iniciar Sesión</h2>
-      <form id="login-form">
-        <input id="login-email" type="email" placeholder="Correo" required>
-        <input id="login-password" type="password" placeholder="Contraseña" required>
-        <button type="submit">Entrar</button>
-      </form>
-    </div>
-    <div id="register-section" class="form-section hidden">
-      <h2>Registrarse</h2>
-      <form id="register-form">
-        <input id="register-name" type="text" placeholder="Nombre completo" required>
-        <input id="register-email" type="email" placeholder="Correo" required>
-        <input id="register-phone" type="text" placeholder="Teléfono" required>
-        <input id="register-password" type="password" placeholder="Contraseña" required>
-        <button type="submit">Crear cuenta</button>
-      </form>
-    </div>
-    <p id="message" class="message"></p>
+    <div id="resultado"></div>
   </div>
-  <section class="features">
-    <h3>Inversiones desde 10.00 USD / 10.000 COP</h3>
-    <p>Elige un plan, realiza la transferencia por Telegram/Nequi y sube tu comprobante.</p>
-  </section>
-</main>
-<footer>
-  <p>Contacto: <a href="https://t.me/Andrewsbuyer" target="_blank">Telegram</a> · Número: +573014808791</p>
-</footer>
-<script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
